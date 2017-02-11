@@ -1,0 +1,58 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    height: 100% !important;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
+    background-color: whitesmoke !important;
+    /*background-color: #94a0a9 !important;*/
+    color: #222 !important;
+}
+.wrapper{
+    position: static;
+    overflow: hidden;
+}
+.header{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: lightgray;
+    border-bottom: 1px solid gray;
+    text-align: center;
+}
+
+.login-container{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.user-list{
+    margin-left: 20%;
+    float: left;
+    width: 25%;
+    overflow: hidden;
+}
+.user-details{
+    float: right;
+    width: 55%;
+    overflow: hidden;
+}
+.edit-glyphicon,.remove-glyphicon{
+    margin-top: 10px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.list-items > li, .custom-link{
+    cursor: pointer;
+    color: #217AC0;
+}
+.map-container{
+    width: 40%;
+    height: 70%;
+    bottom: 0px;
+    top: 0px;
+    position: absolute;
+    margin-top: 6%;
+    margin-left: 30%;
+}
