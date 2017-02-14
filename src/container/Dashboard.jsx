@@ -4,6 +4,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _ from 'lodash';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import * as applicationActionCreators from '../actions/application';
 import DashboardComponent from '../component/Dashboard';
@@ -15,11 +16,23 @@ class Dashboard extends React.Component {
         super(props);
         this.state = {
             mapBoxObject: {},
+            selectedItem: 1,
+            navListItems: [],
         };
         this.handleAddPopup = this.handleAddPopup.bind(this);
         this.drawLine = this.drawLine.bind(this);
         this.drawPolygon = this.drawPolygon.bind(this);
         this.handleAddPointsClick = this.handleAddPointsClick.bind(this);
+        this.getNavList = this.getNavList.bind(this);
+    }
+    getNavList(){
+      const navListItems = [
+        { id: 1, navTitle: 'Draw Line', isActive: true, clickHandler: this.drawLine },
+        { id: 2, navTitle: 'Draw Polygon', isActive: false, clickHandler: this.drawPolygon },
+        { id: 3, navTitle: 'Draw Point', isActive: false, clickHandler: this.handleAddPointsClick },
+        { id: 4, navTitle: 'Draw Popup', isActive: false, clickHandler: this.handleAddPopup },
+      ]
+      return navListItems;
     }
     componentDidMount() {
         const map = new mapboxgl.Map({
@@ -40,7 +53,15 @@ class Dashboard extends React.Component {
         this.setMapBoxObject(map);
     }
     setMapBoxObject(mapObj) {
-        this.setState({ mapBoxObject: mapObj });
+        const navItems = this.getNavList();
+        this.setState({ mapBoxObject: mapObj, navListItems: navItems});
+    }
+    setNavItemData(id) {
+      let navItems = this.state.navListItems;
+      _.forEach(navItems, (item, index) => {
+        index === id ? (item.isActive = true) : (item.isActive = false);
+      });
+      this.setState({ navListItems: navItems});
     }
     handleAddPopup() {
         const map = this.state.mapBoxObject;
@@ -52,6 +73,7 @@ class Dashboard extends React.Component {
         map.setZoom(13);
         map.flyTo({ center: coordinates });
         this.props.actions.requestHeaderChange('Popup');
+        this.setNavItemData(3);
     }
     drawLine() {
         const map = this.state.mapBoxObject;
@@ -91,6 +113,7 @@ class Dashboard extends React.Component {
         map.setZoom(9);
         map.flyTo({ center: [103.81798383994308, 1.447095445151575] });
         this.props.actions.requestHeaderChange('Line');
+        this.setNavItemData(0);
     }
     drawPolygon() {
         const map = this.state.mapBoxObject;
@@ -136,6 +159,7 @@ class Dashboard extends React.Component {
         });
         map.setZoom(9);
         this.props.actions.requestHeaderChange('Polygon');
+        this.setNavItemData(1);
     }
     handleAddPointsClick() {
         const map = this.state.mapBoxObject;
@@ -211,7 +235,7 @@ class Dashboard extends React.Component {
         }, true);
         map.setZoom(11);
         map.flyTo({ center: [103.8119, 1.3237] });
-        this.props.actions.requestHeaderChange('Point');
+        this.setNavItemData(2);
     }
     render() {
         const styles = {
@@ -228,10 +252,6 @@ class Dashboard extends React.Component {
         return (
           <div>
             <DashboardComponent
-              handleAddPopup={this.handleAddPopup}
-              handleDrawLine={this.drawLine}
-              handleDrawPolygon={this.drawPolygon}
-              handleAddPointsClick={this.handleAddPointsClick}
               styles={styles}
               {...this.props}
               {...this.state}
