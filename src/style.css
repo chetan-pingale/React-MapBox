@@ -81,6 +81,6 @@ body {
 }
 .nav-list-item >li:hover {
     text-decoration: none;
-    color: black;
-    background-color: #eee;
+    color: #fff;
+    background-color: #5091ca;
 }

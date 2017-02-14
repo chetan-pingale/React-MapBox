@@ -9,7 +9,7 @@ const Dashboard = props => (
   <Grid fluid>
     <Row>
       <Col md={3} mdOffset={1}>
-        <h3>{props.headerTitle || 'Line'}</h3>
+        <h3>{props.headerTitle || 'Select Action'}</h3>
       </Col>
     </Row>
     <Row>

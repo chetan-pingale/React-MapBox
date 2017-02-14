@@ -25,15 +25,6 @@ class Dashboard extends React.Component {
         this.handleAddPointsClick = this.handleAddPointsClick.bind(this);
         this.getNavList = this.getNavList.bind(this);
     }
-    getNavList(){
-      const navListItems = [
-        { id: 1, navTitle: 'Draw Line', isActive: true, clickHandler: this.drawLine },
-        { id: 2, navTitle: 'Draw Polygon', isActive: false, clickHandler: this.drawPolygon },
-        { id: 3, navTitle: 'Draw Point', isActive: false, clickHandler: this.handleAddPointsClick },
-        { id: 4, navTitle: 'Draw Popup', isActive: false, clickHandler: this.handleAddPopup },
-      ]
-      return navListItems;
-    }
     componentDidMount() {
         const map = new mapboxgl.Map({
             container: 'map',
@@ -52,18 +43,45 @@ class Dashboard extends React.Component {
         map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
         this.setMapBoxObject(map);
     }
+    getNavList() {
+        const navListItems = [
+          { id: 1, navTitle: 'Draw Line', isActive: false, clickHandler: this.drawLine },
+          { id: 2, navTitle: 'Draw Polygon', isActive: false, clickHandler: this.drawPolygon },
+          { id: 3, navTitle: 'Draw Point', isActive: false, clickHandler: this.handleAddPointsClick },
+          { id: 4, navTitle: 'Draw Popup', isActive: false, clickHandler: this.handleAddPopup },
+        ];
+        return navListItems;
+    }
     setMapBoxObject(mapObj) {
         const navItems = this.getNavList();
         this.setState({ mapBoxObject: mapObj, navListItems: navItems});
     }
     setNavItemData(id) {
-      let navItems = this.state.navListItems;
-      _.forEach(navItems, (item, index) => {
-        index === id ? (item.isActive = true) : (item.isActive = false);
-      });
-      this.setState({ navListItems: navItems});
+        const navItems = this.state.navListItems;
+        _.forEach(navItems, (item, index) => {
+            navItems[index].isActive = (index === id);
+        });
+        this.setState({ navListItems: navItems });
+    }
+    clearMap() {
+        const map = this.state.mapBoxObject;
+        if (!_.isEmpty(map)) {
+            if (map.getSource('line-layer')) {
+                map.removeSource('line-layer');
+                map.removeLayer('line-layer');
+            }
+            if (map.getSource('points')) {
+                map.removeSource('points');
+                map.removeLayer('points');
+            }
+            if (map.getSource('polygon-layer')) {
+                map.removeSource('polygon-layer');
+                map.removeLayer('polygon-layer');
+            }
+        }
     }
     handleAddPopup() {
+        this.clearMap();
         const map = this.state.mapBoxObject;
         const coordinates = [103.8543, 1.2906];
         let popup = new mapboxgl.Popup()
@@ -76,6 +94,7 @@ class Dashboard extends React.Component {
         this.setNavItemData(3);
     }
     drawLine() {
+        this.clearMap();
         const map = this.state.mapBoxObject;
         const lineData = {
             type: 'Feature',
@@ -90,10 +109,6 @@ class Dashboard extends React.Component {
                 ],
             },
         };
-        if (map.getSource('line-layer')) {
-            map.removeSource('line-layer');
-            map.removeLayer('line-layer');
-        }
         map.addLayer({
             id: 'line-layer',
             type: 'line',
@@ -116,6 +131,7 @@ class Dashboard extends React.Component {
         this.setNavItemData(0);
     }
     drawPolygon() {
+        this.clearMap();
         const map = this.state.mapBoxObject;
         const polygonData = {
             type: 'Feature',
@@ -132,10 +148,6 @@ class Dashboard extends React.Component {
                 ],
             },
         };
-        if (map.getSource('polygon-layer')) {
-            map.removeSource('polygon-layer');
-            map.removeLayer('polygon-layer');
-        }
         map.addLayer({
             id: 'polygon-layer',
             type: 'fill',
@@ -157,11 +169,12 @@ class Dashboard extends React.Component {
                 map.flyTo({ center: coordinates });
             }
         });
-        map.setZoom(9);
+        map.setZoom(10);
         this.props.actions.requestHeaderChange('Polygon');
         this.setNavItemData(1);
     }
     handleAddPointsClick() {
+        this.clearMap();
         const map = this.state.mapBoxObject;
         const canvas = map.getCanvasContainer();
         let isCursorOverPoint = false;
@@ -179,10 +192,6 @@ class Dashboard extends React.Component {
                 },
             }],
         };
-        if (map.getSource('points')) {
-            map.removeSource('points');
-            map.removeLayer('points');
-        }
         map.addLayer({
             id: 'points',
             type: 'circle',
