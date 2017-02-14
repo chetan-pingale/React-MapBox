@@ -2,15 +2,9 @@
  * Created by Chetan.Pingale on 10-02-2017.
  */
 import React from 'react';
-import { Grid, Row, Col, Nav, NavItem } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import _ from 'lodash';
 
-
-/*<li className="inactive" onClick={props.handleDrawLine}>Draw Line</li>
- <li className="inactive" onClick={props.handleDrawPolygon}>Draw Polygon</li>
- <li className="active" onClick={props.handleAddPointsClick}>Draw Point</li>
- <li className="inactive" onClick={props.handleAddPopup}>Draw Popup</li>
- */
 const Dashboard = props => (
   <Grid fluid>
     <Row>
