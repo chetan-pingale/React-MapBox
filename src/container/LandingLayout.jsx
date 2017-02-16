@@ -11,14 +11,19 @@ class LandingLayout extends React.Component {
     constructor(props) {
         super(props);
         this.navigateToDashbord = this.navigateToDashbord.bind(this);
+        this.navigateToClusterMap = this.navigateToClusterMap.bind(this);
     }
     navigateToDashbord() {
         this.props.actions.redirectToDashboard('Dashboard');
+    }
+    navigateToClusterMap() {
+        this.props.actions.redirectToClusterMap('Cluster Map');
     }
     render() {
         return (
           <LandingLayoutComponent
             navigateToDashbord={this.navigateToDashbord}
+            navigateToClusterMap={this.navigateToClusterMap}
             {...this.state}
           />
         );

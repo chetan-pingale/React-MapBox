@@ -5,13 +5,13 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import _ from 'lodash';
 
-const Dashboard = props => (
+const CluserMap = props => (
   <Grid fluid>
     <Row>
       <Col md={3} mdOffset={1}>
         <ol className="breadcrumb">
           <li><a onClick={props.navigateToHome}>Home</a></li>
-          <li className="active">Dashboard</li>
+          <li className="active">Cluster Map</li>
         </ol>
       </Col>
     </Row>
@@ -23,10 +23,16 @@ const Dashboard = props => (
     <Row>
       <Col md={3} mdOffset={1}>
         <ul className="nav-list-item">
-          {_.map(props.navListItems , (navItem, index) => {
-            return (
-              <li key={index} className={navItem.isActive ? 'active' : 'inactive'} onClick={navItem.clickHandler}> {navItem.navTitle} </li>
-            );
+          {_.map(props.navListItems, (navItem, index) => {
+              return (
+                <li
+                  key={index + 1}
+                  className={navItem.isActive ? 'active' : 'inactive'}
+                  onClick={(event) => navItem.clickHandler(event, navItem.id)}
+                >
+                  {navItem.navTitle}
+                </li>
+              );
           })}
         </ul>
       </Col>
@@ -37,10 +43,10 @@ const Dashboard = props => (
   </Grid>
 );
 
-Dashboard.propTypes = {
+CluserMap.propTypes = {
     headerTitle: React.PropTypes.string,
     navListItems: React.PropTypes.array,
     navigateToHome: React.PropTypes.func,
     styles: React.PropTypes.object,
 }
-export default Dashboard;
+export default CluserMap;

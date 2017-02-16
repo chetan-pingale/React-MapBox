@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import Application from '../container/Application';
 import LandingLayout from '../container/LandingLayout';
 import Dashboard from '../container/Dashboard';
+import ClusterMap from '../container/ClusterMap';
 import store from '../store';
 
 const history = syncHistoryWithStore(browserHistory, store);
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="/" component={Application}>
         <IndexRoute component={LandingLayout} />
         <Route path="dashboard" component={Dashboard} />
+        <Route path="clustermap" component={ClusterMap} />
       </Route>
     </Router>
   </Provider>,

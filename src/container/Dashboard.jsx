@@ -24,6 +24,7 @@ class Dashboard extends React.Component {
         this.drawPolygon = this.drawPolygon.bind(this);
         this.handleAddPointsClick = this.handleAddPointsClick.bind(this);
         this.getNavList = this.getNavList.bind(this);
+        this.navigateToHome = this.navigateToHome.bind(this);
     }
     componentDidMount() {
         const map = new mapboxgl.Map({
@@ -54,7 +55,7 @@ class Dashboard extends React.Component {
     }
     setMapBoxObject(mapObj) {
         const navItems = this.getNavList();
-        this.setState({ mapBoxObject: mapObj, navListItems: navItems});
+        this.setState({ mapBoxObject: mapObj, navListItems: navItems });
     }
     setNavItemData(id) {
         const navItems = this.state.navListItems;
@@ -62,6 +63,9 @@ class Dashboard extends React.Component {
             navItems[index].isActive = (index === id);
         });
         this.setState({ navListItems: navItems });
+    }
+    navigateToHome() {
+        this.props.actions.navigateToHome();
     }
     clearMap() {
         const map = this.state.mapBoxObject;
@@ -206,7 +210,7 @@ class Dashboard extends React.Component {
         });
         map.on('mousemove', e => {
             const features = map.queryRenderedFeatures(e.point, { layers: ['points'] });
-            if (features.length) {
+            if (features && features.length) {
                 map.setPaintProperty('points', 'circle-color', '#3bb2d0');
                 canvas.style.cursor = 'move';
                 isCursorOverPoint = true;
@@ -261,6 +265,7 @@ class Dashboard extends React.Component {
         return (
           <div>
             <DashboardComponent
+              navigateToHome={this.navigateToHome}
               styles={styles}
               {...this.props}
               {...this.state}

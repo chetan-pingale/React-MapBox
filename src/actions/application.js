@@ -13,4 +13,11 @@ export const redirectToDashboard = title => dispatch => {
     dispatch(push('/dashboard'));
 }
 
+export const redirectToClusterMap = title => dispatch => {
+    dispatch(requestHeaderChange(title));
+    dispatch(push('/clustermap'));
+}
 
+export const navigateToHome = () => dispatch => {
+    dispatch(push('/'));
+}

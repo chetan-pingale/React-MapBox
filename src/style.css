@@ -84,3 +84,7 @@ body {
     color: #fff;
     background-color: #5091ca;
 }
+ul > li.custom-link {
+    color: #337ab7;
+    cursor: pointer;
+}
