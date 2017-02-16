@@ -81,7 +81,7 @@ class ClusterMap extends React.Component {
                     'icon-image': 'marker-15',
                 },
             });
-            const layers = [[150, '#f28cb1'], [20, '#f1f075'], [0, '#51bbd6']];
+            const layers = [[150, '#f28cb1'], [20, '#f1f075'], [0, '#6658D6']];
             const layersData = [];
             layers.forEach((layer, i) => {
                 const name = `cluster-${i}`;
@@ -92,7 +92,7 @@ class ClusterMap extends React.Component {
                     source: 'earthquakes',
                     paint: {
                         'circle-color': layer[1],
-                        'circle-radius': 20,
+                        'circle-radius': 40,
                         'circle-blur': 1,
                     },
                     filter: i === 0 ?
